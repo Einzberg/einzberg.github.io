@@ -119,6 +119,7 @@
 
         // generate a random degree from 0 to 360
         var directionDeg = Math.random() * 360;
+        //var directionDeg = 90;
 
         // draw a marker on map
         var pointA = new google.maps.LatLng(49.283, -123.12);
@@ -147,10 +148,20 @@
         });
 
         // Show marker at point a on circle
-//        new google.maps.Marker({
-//            position: pointA.destinationPoint(-180, radius),
-//            map: map
-//        });
+        new google.maps.Marker({
+            position: midPoint.destinationPoint(90+directionDeg, radius),
+            map: map
+        });
+        // Show marker at point b on circle
+        new google.maps.Marker({
+            position: midPoint.destinationPoint(directionDeg, radius),
+            map: map
+        });
+        // Show marker at point c on circle
+        new google.maps.Marker({
+          position: midPoint.destinationPoint(270+directionDeg, radius),
+          map: map
+        });
 
         // autocomplete starting location
         var start = document.getElementById('start');

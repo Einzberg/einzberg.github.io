@@ -142,20 +142,29 @@
         });
 
         var radius = 10;
-        // Draw the circle
-        new google.maps.Circle({
-              center: pointA,
-              radius: radius * 1000,       // Convert to meters
-              fillColor: '#FF0000',
-              fillOpacity: 0.2,
-              map: map
-        });
 
-        // Show marker at destination point
+        var midPoint = pointA.destinationPoint(directionDeg, radius)
+
+        // Show marker at mid point
         new google.maps.Marker({
-            position: pointA.destinationPoint(directionDeg, radius),
+            position: midPoint,
             map: map
         });
+
+        // Draw the circle
+        new google.maps.Circle({
+            center: midPoint,
+            radius: radius * 1000,       // Convert to meters
+            fillColor: '#FF0000',
+            fillOpacity: 0.2,
+            map: map
+        });
+
+        // Show marker at point a on circle
+//        new google.maps.Marker({
+//            position: pointA.destinationPoint(-180, radius),
+//            map: map
+//        });
 
         // autocomplete starting location
         var start = document.getElementById('start');

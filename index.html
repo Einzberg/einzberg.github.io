@@ -137,7 +137,7 @@
       function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         directionsService.route({
           origin: document.getElementById('start').value,
-          destination: document.getElementById('end').value,
+          destination: document.getElementById('start').value,
           optimizeWaypoints: true,
           travelMode: 'DRIVING'
         }, function(response, status) {

@@ -85,7 +85,7 @@
         var directionsDisplay = new google.maps.DirectionsRenderer;
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 10,
-          center: {lat: 49.28, lng: -123.12}
+          center: {lat: 49.283, lng: -123.12}
         });
         directionsDisplay.setMap(map);
 
@@ -142,7 +142,7 @@
       function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         directionsService.route({
           origin: document.getElementById('start').value,
-          destination: document.getElementById('end').value,
+          destination: document.getElementById('start').value,
           optimizeWaypoints: true,
           travelMode: 'DRIVING'
         }, function(response, status) {

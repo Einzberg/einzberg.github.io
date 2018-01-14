@@ -89,6 +89,10 @@
         });
         directionsDisplay.setMap(map);
 
+        // generate a random degree from 0 to 360
+        var directionDeg = Math.random() * 360;
+
+        // autocomplete starting location
         var start = document.getElementById('start');
         var autocomplete = new google.maps.places.Autocomplete(start);
         autocomplete.bindTo('bounds', map);
@@ -129,6 +133,7 @@
             infowindow.open(map, marker);
         });
 
+        // submit callback
         document.getElementById('submit').addEventListener('click', function() {
           calculateAndDisplayRoute(directionsService, directionsDisplay);
         });

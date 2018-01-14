@@ -176,17 +176,19 @@
 
         // submit callback
         document.getElementById('submit').addEventListener('click', function() {
-          drawCircleAndPoints(map);
+          drawCircleAndPoints(map, autocomplete);
           //calculateAndDisplayRoute(directionsService, directionsDisplay);
         });
       }
 
       function drawCircleAndPoints(map) {
         // generate a random degree from 0 to 360
-        var directionDeg = Math.random() * 360;
+        var place = autocomplete.getPlace();
 
-        // draw a marker on map
-        var pointA = new google.maps.LatLng(49.283, -123.12);
+        var lat = place.geometry.location.lat(),
+            lng = place.geometry.location.lng();
+
+        var pointA = new google.maps.LatLng(lat, lng);
         new google.maps.Marker({
           position: pointA,
           map: map

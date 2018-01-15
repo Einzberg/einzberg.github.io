@@ -210,14 +210,11 @@
         numLatLng++;
     }
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-        console.log("Calculating and Displaying Route");
         var wayPoints = [];
-        console.log("LatLng Array: ", latlngArray);
         for (var i = 0; i < latlngArray.length; i++){
-            console.log("Locations: ", latlngArray[i].position);
-            var waypoint = new google.maps.LatLng(latlngArray[i].lat(), latlngArray[i].lng());
+            var wayPoint = new google.maps.LatLng(latlngArray[i].lat(), latlngArray[i].lng());
             wayPoints.push({
-                location: waypoint,
+                location: wayPoint,
                 stopover: true
             })
         }
@@ -232,16 +229,13 @@
             if (status === 'OK') {
                 directionsDisplay.setDirections(response);
                 var route = response.routes[0];
-
                 // Calculate the route's length
                 var routeLength = 0;
                 for (var i = 0; i < route.legs.length; i++) {
-                    console.log(route.legs[i].distance);
                     routeLength += route.legs[i].distance.value;
                 }
                 routeLength = routeLength / 1000;
                 document.getElementById("routelength").innerHTML = routeLength;
-
             } else {
                 window.alert('Directions request failed due to ' + status);
             }

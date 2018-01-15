@@ -96,7 +96,7 @@
 </div>
 <script>
     var latlngArray = new Array();
-    var numLatLng;
+
     function initMap() {
         Number.prototype.toRad = function() {
             return this * Math.PI / 180;
@@ -173,42 +173,35 @@
             calculateAndDisplayRoute(directionsService, directionsDisplay);
         });
     }
+
+    // note: DO NOT REMOVE THE MAP VARIABE, IT WILL BREAK CODE
     function drawCircleAndPoints(map, autocomplete) {
         // generate a random degree from 0 to 360
         var directionDeg = Math.random() * 360;
 
-        var place = autocomplete.getPlace();
-        if (!place) {
+        var startPoint = autocomplete.getPlace();
+        if (!startPoint) {
             window.alert("Please input valid start address.");
             return;
         }
 
-        var lat = place.geometry.location.lat(),
-            lng = place.geometry.location.lng();
-        var startPoint = new google.maps.LatLng(lat, lng);
+        var startLat = startPoint.geometry.location.lat(),
+            startLon = startPoint.geometry.location.lng();
+        var startPoint = new google.maps.LatLng(startLat, startLon);
 
-        var radius = parseFloat(document.getElementById('distance').value);
-        if (isNaN(radius)) {
+        var distance = parseFloat(document.getElementById('distance').value);
+        if (isNaN(distance)) {
             window.alert("Please input valid distance value.");
             return;
         }
-        radius = radius / (2 * 3.14159);
+        var radius = distance / (2 * Math.PI);
 
         var midPoint = startPoint.destinationPoint(directionDeg, radius);
-    
-        numLatLng = 0;
-
-        latlngArray[numLatLng] = midPoint.destinationPoint(90+directionDeg, radius),
-
-        numLatLng++;
-
-        latlngArray[numLatLng] = midPoint.destinationPoint(directionDeg, radius)
-
-        numLatLng++;
-
-        latlngArray[numLatLng] = midPoint.destinationPoint(270+directionDeg, radius)
-        numLatLng++;
+        latlngArray.push(midPoint.destinationPoint(90+directionDeg, radius));
+        latlngArray.push(midPoint.destinationPoint(directionDeg, radius));
+        latlngArray.push(midPoint.destinationPoint(270+directionDeg, radius));
     }
+
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         var wayPoints = [];
         for (var i = 0; i < latlngArray.length; i++){

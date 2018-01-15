@@ -62,7 +62,6 @@
         #start:focus {
             border-color: #4d90fe;
         }
-
         #distance:focus {
             border-color: #4d90fe;
         }
@@ -88,13 +87,13 @@
     </div>
     <br>
     <input type="submit" id="submit" value = "Create Route">
-  <div>
-    <font size = "1"><a href="https://mapicons.mapsmarker.com">Maps Icons Collection</a></font>
-  </div>
+    <div>
+        <font size = "1"><a href="https://mapicons.mapsmarker.com">Maps Icons Collection</a></font>
+    </div>
 </div>
 <script>
-	var markerArray = new Array();
-	var numMarker;
+    var markerArray = new Array();
+    var numMarker;
     function initMap() {
         Number.prototype.toRad = function() {
             return this * Math.PI / 180;
@@ -122,20 +121,15 @@
             center: {lat: 49.283, lng: -123.12}
         });
         directionsDisplay.setMap(map);
-
 //        var infowindow = new google.maps.InfoWindow();
 //        var infowindowContent = document.getElementById('infowindow-content');
 //        infowindow.setContent(infowindowContent);
-
         var startMarkerIcon = 'https://raw.githubusercontent.com/Einzberg/einzberg.github.io/master/homeMarker.png';
         var marker = new google.maps.Marker({
             map: map,
             anchorPoint: new google.maps.Point(0, -29),
             icon: startMarkerIcon
         });
-
-
-
         // autocomplete starting location
         var start = document.getElementById('start');
         var autocomplete = new google.maps.places.Autocomplete(start);
@@ -174,82 +168,78 @@
         });
         // submit callback
         document.getElementById('submit').addEventListener('click', function() {
-   			for(var i=0; i < numMarker - 1; i++){
-				markerArray[i].setMap(null);
-			}
-			markerArray = new Array();
-
+            for(var i=0; i < numMarker - 1; i++){
+                markerArray[i].setMap(null);
+            }
+            markerArray = new Array();
             drawCircleAndPoints(map, autocomplete);
-            //calculateAndDisplayRoute(directionsService, directionsDisplay);
+            calculateAndDisplayRoute(directionsService, directionsDisplay);
         });
     }
-
     function drawCircleAndPoints(map, autocomplete) {
         // generate a random degree from 0 to 360
         var directionDeg = Math.random() * 360;
-
         var place = autocomplete.getPlace();
-        if (!place) {
-            window.alert("Please input valid start address.");
-            return;
-        }
-        else {
-            console.log("not here");
-        }
-
         var lat = place.geometry.location.lat(),
             lng = place.geometry.location.lng();
         var startPoint = new google.maps.LatLng(lat, lng);
-
         var radius = parseFloat(document.getElementById('distance').value);
-        if (isNaN(radius)) {
-            alert("Please input valid distance value.");
-            return;
-        }
-
         radius = radius / (2 * 3.14159);
 //        console.log("radius: ", radius);
         var midPoint = startPoint.destinationPoint(directionDeg, radius);
         // Show marker at mid point
-		numMarker = 0;
+        numMarker = 0;
         markerArray[numMarker] = new google.maps.Marker({
-									position: midPoint,
-									map: map
-								});
-		numMarker++;
-        // Draw the circle
-        markerArray[numMarker] = new google.maps.Circle({
-									center: midPoint,
-									radius: radius * 1000,       // Convert to meters
-									fillColor: '#FF0000',
-									fillOpacity: 0.2,
-									map: map
-								});
-		numMarker++;
+            position: midPoint,
+            map: map
+        });
+//        numMarker++;
+//        // Draw the circle
+//        markerArray[numMarker] = new google.maps.Circle({
+//            center: midPoint,
+//            radius: radius * 1000,       // Convert to meters
+//            fillColor: '#FF0000',
+//            fillOpacity: 0.2,
+//            map: map
+//        });
+        numMarker++;
         // Show marker at point a on circle
         markerArray[numMarker] = new google.maps.Marker({
-									position: midPoint.destinationPoint(90+directionDeg, radius),
-									map: map
-								});
-		numMarker++;
+            position: midPoint.destinationPoint(90+directionDeg, radius),
+            map: map
+        });
+        numMarker++;
         // Show marker at point b on circle
         // Show marker at point b on circle
         markerArray[numMarker] = new google.maps.Marker({
-									position: midPoint.destinationPoint(directionDeg, radius),
-									map: map
-								});
-		numMarker++;
+            position: midPoint.destinationPoint(directionDeg, radius),
+            map: map
+        });
+        numMarker++;
         // Show marker at point c on circle
         markerArray[numMarker] = new google.maps.Marker({
-									position: midPoint.destinationPoint(270+directionDeg, radius),
-									map: map
-								});
-		numMarker++;
+            position: midPoint.destinationPoint(270+directionDeg, radius),
+            map: map
+        });
+        numMarker++;
     }
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        console.log("Calculating and Displaying Route");
+        var wayPoints = [];
+        console.log("Marker Array: ", markerArray);
+        for (var i = 0; i < markerArray.length; i++){
+            console.log("Locations: ", markerArray[i].position);
+            var waypoint = new google.maps.LatLng(markerArray[i].getPosition().lat(), markerArray[i].getPosition().lng());
+            wayPoints.push({
+                location: waypoint,
+                stopover: true
+            })
+        }
+
         directionsService.route({
             origin: document.getElementById('start').value,
             destination: document.getElementById('start').value,
+            waypoints: wayPoints,
             optimizeWaypoints: true,
             travelMode: 'DRIVING'
         }, function(response, status) {

@@ -122,21 +122,20 @@
         });
         directionsDisplay.setMap(map);
         directionsDisplay.setOptions( { suppressMarkers: true } );
-//        var infowindow = new google.maps.InfoWindow();
-//        var infowindowContent = document.getElementById('infowindow-content');
-//        infowindow.setContent(infowindowContent);
+
         var startMarkerIcon = 'https://raw.githubusercontent.com/Einzberg/einzberg.github.io/master/homeMarker.png';
         var marker = new google.maps.Marker({
             map: map,
             anchorPoint: new google.maps.Point(0, -29),
             icon: startMarkerIcon
         });
+        
         // autocomplete starting location
         var start = document.getElementById('start');
         var autocomplete = new google.maps.places.Autocomplete(start);
         autocomplete.bindTo('bounds', map);
         autocomplete.addListener('place_changed', function() {
-//            infowindow.close();
+
             marker.setVisible(false);
             var place = autocomplete.getPlace();
             if (!place.geometry) {
@@ -162,10 +161,7 @@
                     (place.address_components[2] && place.address_components[2].short_name || '')
                 ].join(' ');
             }
-//            infowindowContent.children['place-icon'].src = place.icon;
-//            infowindowContent.children['place-name'].textContent = place.name;
-//            infowindowContent.children['place-address'].textContent = address;
-//            infowindow.open(map, marker);
+
         });
         // submit callback
         document.getElementById('submit').addEventListener('click', function() {
@@ -193,9 +189,8 @@
             window.alert("Please input valid distance value.");
             return;
         }
-
         radius = radius / (2 * 3.14159);
-//        console.log("radius: ", radius);
+
         var midPoint = startPoint.destinationPoint(directionDeg, radius);
     
         numLatLng = 0;

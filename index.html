@@ -78,7 +78,7 @@
         </input>
     </div>
     <div>
-        <b>Distance:</b>
+        <b>Distance(km):</b>
         <br>
         <input id="distance", type = "text"
                placeholder="Enter distance">
@@ -92,8 +92,8 @@
     </div>
 </div>
 <script>
-    var markerArray = new Array();
-    var numMarker;
+    var latlngArray = new Array();
+    var numLatLng;
     function initMap() {
         Number.prototype.toRad = function() {
             return this * Math.PI / 180;
@@ -169,10 +169,7 @@
         });
         // submit callback
         document.getElementById('submit').addEventListener('click', function() {
-            for(var i=0; i < numMarker - 1; i++){
-                markerArray[i].setMap(null);
-            }
-            markerArray = new Array();
+            latlngArray = new Array();
             drawCircleAndPoints(map, autocomplete);
             calculateAndDisplayRoute(directionsService, directionsDisplay);
         });
@@ -200,49 +197,27 @@
         radius = radius / (2 * 3.14159);
 //        console.log("radius: ", radius);
         var midPoint = startPoint.destinationPoint(directionDeg, radius);
-        // Show marker at mid point
-        numMarker = 0;
-        markerArray[numMarker] = new google.maps.Marker({
-            position: midPoint,
-            map: map
-        });
-//        numMarker++;
-//        // Draw the circle
-//        markerArray[numMarker] = new google.maps.Circle({
-//            center: midPoint,
-//            radius: radius * 1000,       // Convert to meters
-//            fillColor: '#FF0000',
-//            fillOpacity: 0.2,
-//            map: map
-//        });
-        numMarker++;
-        // Show marker at point a on circle
-        markerArray[numMarker] = new google.maps.Marker({
-            position: midPoint.destinationPoint(90+directionDeg, radius),
-            map: map
-        });
-        numMarker++;
-        // Show marker at point b on circle
-        // Show marker at point b on circle
-        markerArray[numMarker] = new google.maps.Marker({
-            position: midPoint.destinationPoint(directionDeg, radius),
-            map: map
-        });
-        numMarker++;
-        // Show marker at point c on circle
-        markerArray[numMarker] = new google.maps.Marker({
-            position: midPoint.destinationPoint(270+directionDeg, radius),
-            map: map
-        });
-        numMarker++;
+    
+        numLatLng = 0;
+
+        latlngArray[numLatLng] = midPoint.destinationPoint(90+directionDeg, radius),
+
+        numLatLng++;
+
+        latlngArray[numLatLng] = midPoint.destinationPoint(directionDeg, radius)
+
+        numLatLng++;
+
+        latlngArray[numLatLng] = midPoint.destinationPoint(270+directionDeg, radius)
+        numLatLng++;
     }
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         console.log("Calculating and Displaying Route");
         var wayPoints = [];
-        console.log("Marker Array: ", markerArray);
-        for (var i = 0; i < markerArray.length; i++){
-            console.log("Locations: ", markerArray[i].position);
-            var waypoint = new google.maps.LatLng(markerArray[i].getPosition().lat(), markerArray[i].getPosition().lng());
+        console.log("LatLng Array: ", latlngArray);
+        for (var i = 0; i < latlngArray.length; i++){
+            console.log("Locations: ", latlngArray[i].position);
+            var waypoint = new google.maps.LatLng(latlngArray[i].lat(), latlngArray[i].lng());
             wayPoints.push({
                 location: waypoint,
                 stopover: true
@@ -254,7 +229,7 @@
             destination: document.getElementById('start').value,
             waypoints: wayPoints,
             optimizeWaypoints: true,
-            travelMode: 'DRIVING'
+            travelMode: 'WALKING'
         }, function(response, status) {
             if (status === 'OK') {
                 directionsDisplay.setDirections(response);

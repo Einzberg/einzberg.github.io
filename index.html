@@ -10,7 +10,15 @@
             line-height: 30px;
             padding-left: 10px;
         }
-
+        #right-panel select, #right-panel input {
+            font-size: 15px;
+        }
+        #right-panel select {
+            width: 100%;
+        }
+        #right-panel i {
+            font-size: 12px;
+        }
         html, body {
             height: 100%;
             margin: 0;
@@ -19,27 +27,43 @@
         #map {
             height: 100%;
             float: left;
-            width: 84%;
+            width: 70%;
             height: 100%;
         }
         #right-panel {
-            margin: 2px;
+            margin: 20px;
             border-width: 2px;
-            width: 15%;
+            width: 20%;
             height: 400px;
             float: left;
             text-align: left;
             padding-top: 0;
         }
-        #textbox {
+        #distance {
             background-color: #fff;
             font-family: Roboto;
             font-size: 15px;
             font-weight: 300;
-            margin-left: 3px;
-            padding: 0 3px 0 3px;
+            margin-left: 12px;
+            padding: 0 11px 0 13px;
             text-overflow: ellipsis;
-            width: 70%;
+            width: 300px;
+        }
+        #start {
+            background-color: #fff;
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+            margin-left: 12px;
+            padding: 0 11px 0 13px;
+            text-overflow: ellipsis;
+            width: 300px;
+        }
+        #start:focus {
+            border-color: #4d90fe;
+        }
+        #distance:focus {
+            border-color: #4d90fe;
         }
     </style>
 </head>
@@ -49,14 +73,14 @@
     <div>
         <b>Start:</b>
         <br>
-        <input id="textbox", type = "text"
+        <input id="start", type = "text"
                placeholder="Enter a location">
         </input>
     </div>
     <div>
         <b>Distance(km):</b>
         <br>
-        <input id="textbox", type = "text"
+        <input id="distance", type = "text"
                placeholder="Enter distance">
         </input>
 
@@ -66,6 +90,9 @@
     </div>
     <br>
     <input type="submit" id="submit" value = "Create Route">
+    <div>
+        <font size = "1"><a href="https://mapicons.mapsmarker.com">Maps Icons Collection</a></font>
+    </div>
 </div>
 <script>
     var latlngArray = new Array();

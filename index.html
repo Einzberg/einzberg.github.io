@@ -124,9 +124,12 @@
 //        var infowindow = new google.maps.InfoWindow();
 //        var infowindowContent = document.getElementById('infowindow-content');
 //        infowindow.setContent(infowindowContent);
+
+        var startMarkerIcon = 'https://raw.githubusercontent.com/Einzberg/einzberg.github.io/master/homeMarker.png';
         var marker = new google.maps.Marker({
             map: map,
-            anchorPoint: new google.maps.Point(0, -29)
+            anchorPoint: new google.maps.Point(0, -29),
+            icon: startMarkerIcon
         });
 
 
@@ -180,15 +183,12 @@
         var place = autocomplete.getPlace();
         var lat = place.geometry.location.lat(),
             lng = place.geometry.location.lng();
-        var pointA = new google.maps.LatLng(lat, lng);
-        new google.maps.Marker({
-            position: pointA,
-            map: map
-        });
+        var startPoint = new google.maps.LatLng(lat, lng);
+
         var radius = parseFloat(document.getElementById('distance').value);
         radius = radius / (2 * 3.14159);
 //        console.log("radius: ", radius);
-        var midPoint = pointA.destinationPoint(directionDeg, radius);
+        var midPoint = startPoint.destinationPoint(directionDeg, radius);
         // Show marker at mid point
         new google.maps.Marker({
             position: midPoint,

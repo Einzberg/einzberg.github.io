@@ -174,10 +174,10 @@
         });
         // submit callback
         document.getElementById('submit').addEventListener('click', function() {
-  			for(var i=0; i < numMarkers; i++){
+/*   			for(var i=0; i < numMarkers; i++){
 				markerArray[i].setMap(null);
 			}
-			markerArray = new Array();
+			markerArray = new Array(); */
             drawCircleAndPoints(map, autocomplete);
             //calculateAndDisplayRoute(directionsService, directionsDisplay);
         });

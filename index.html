@@ -186,6 +186,7 @@
             map: map
         });
         var radius = parseFloat(document.getElementById('distance').value);
+        radius = radius / (2 * 3.14159);
 //        console.log("radius: ", radius);
         var midPoint = pointA.destinationPoint(directionDeg, radius);
         // Show marker at mid point

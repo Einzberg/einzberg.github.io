@@ -135,15 +135,6 @@
             }
             marker.setPosition(place.geometry.location);
             marker.setVisible(true);
-            var address = '';
-            if (place.address_components) {
-                address = [
-                    (place.address_components[0] && place.address_components[0].short_name || ''),
-                    (place.address_components[1] && place.address_components[1].short_name || ''),
-                    (place.address_components[2] && place.address_components[2].short_name || '')
-                ].join(' ');
-            }
-
         });
         // submit callback
         document.getElementById('submit').addEventListener('click', function() {

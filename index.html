@@ -93,6 +93,8 @@
   </div>
 </div>
 <script>
+	var markerArray = new Array();
+	var numMarker;
     function initMap() {
         Number.prototype.toRad = function() {
             return this * Math.PI / 180;
@@ -172,6 +174,10 @@
         });
         // submit callback
         document.getElementById('submit').addEventListener('click', function() {
+  			for(var i=0; i < numMarkers; i++){
+				markerArray[i].setMap(null);
+			}
+			markerArray = new Array();
             drawCircleAndPoints(map, autocomplete);
             //calculateAndDisplayRoute(directionsService, directionsDisplay);
         });
@@ -190,33 +196,39 @@
 //        console.log("radius: ", radius);
         var midPoint = startPoint.destinationPoint(directionDeg, radius);
         // Show marker at mid point
-        new google.maps.Marker({
-            position: midPoint,
-            map: map
-        });
+        markerArray[numMarker] = new google.maps.Marker({
+									position: midPoint,
+									map: map
+								});
+		numMarker++;
         // Draw the circle
-        new google.maps.Circle({
-            center: midPoint,
-            radius: radius * 1000,       // Convert to meters
-            fillColor: '#FF0000',
-            fillOpacity: 0.2,
-            map: map
-        });
+        markerArray[numMarker] = new google.maps.Circle({
+									center: midPoint,
+									radius: radius * 1000,       // Convert to meters
+									fillColor: '#FF0000',
+									fillOpacity: 0.2,
+									map: map
+								});
+		numMarker++;
         // Show marker at point a on circle
-        new google.maps.Marker({
-            position: midPoint.destinationPoint(90+directionDeg, radius),
-            map: map
-        });
+        markerArray[numMarker] = new google.maps.Marker({
+									position: midPoint.destinationPoint(90+directionDeg, radius),
+									map: map
+								});
+		numMarker++;
         // Show marker at point b on circle
-        new google.maps.Marker({
-            position: midPoint.destinationPoint(directionDeg, radius),
-            map: map
-        });
+        // Show marker at point b on circle
+        markerArray[numMarker] = new google.maps.Marker({
+									position: midPoint.destinationPoint(directionDeg, radius),
+									map: map
+								});
+		numMarker++;
         // Show marker at point c on circle
-        new google.maps.Marker({
-            position: midPoint.destinationPoint(270+directionDeg, radius),
-            map: map
-        });
+        markerArray[numMarker] = new google.maps.Marker({
+									position: midPoint.destinationPoint(270+directionDeg, radius),
+									map: map
+								});
+		numMarker++;
     }
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         directionsService.route({

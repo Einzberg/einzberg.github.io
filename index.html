@@ -183,14 +183,11 @@
         numLatLng++;
     }
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-        console.log("Calculating and Displaying Route");
         var wayPoints = [];
-        console.log("LatLng Array: ", latlngArray);
         for (var i = 0; i < latlngArray.length; i++){
-            console.log("Locations: ", latlngArray[i].position);
-            var waypoint = new google.maps.LatLng(latlngArray[i].lat(), latlngArray[i].lng());
+            var wayPoint = new google.maps.LatLng(latlngArray[i].lat(), latlngArray[i].lng());
             wayPoints.push({
-                location: waypoint,
+                location: wayPoint,
                 stopover: true
             })
         }
@@ -205,28 +202,13 @@
             if (status === 'OK') {
                 directionsDisplay.setDirections(response);
                 var route = response.routes[0];
-
                 // Calculate the route's length
                 var routeLength = 0;
                 for (var i = 0; i < route.legs.length; i++) {
-                    console.log(route.legs[i].distance);
                     routeLength += route.legs[i].distance.value;
                 }
                 routeLength = routeLength / 1000;
                 document.getElementById("routelength").innerHTML = routeLength;
-
-//                var summaryPanel = document.getElementById('directions-panel');
-//                summaryPanel.innerHTML = '';
-//                // For each route, display summary information.
-//                for (var i = 0; i < route.legs.length; i++) {
-//                    var routeSegment = i + 1;
-//                    summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-//                        '</b><br>';
-//                    summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-//                    summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-//                    summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-//                    console.log("sos");
-//                }
             } else {
                 window.alert('Directions request failed due to ' + status);
             }

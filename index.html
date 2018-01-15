@@ -174,10 +174,10 @@
         });
         // submit callback
         document.getElementById('submit').addEventListener('click', function() {
-/*   			for(var i=0; i < numMarkers; i++){
+   			for(var i=0; i < numMarker - 1; i++){
 				markerArray[i].setMap(null);
 			}
-			markerArray = new Array(); */
+			markerArray = new Array();
             drawCircleAndPoints(map, autocomplete);
             //calculateAndDisplayRoute(directionsService, directionsDisplay);
         });
@@ -196,6 +196,7 @@
 //        console.log("radius: ", radius);
         var midPoint = startPoint.destinationPoint(directionDeg, radius);
         // Show marker at mid point
+		numMarker = 0;
         markerArray[numMarker] = new google.maps.Marker({
 									position: midPoint,
 									map: map

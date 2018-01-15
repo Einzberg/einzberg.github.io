@@ -178,20 +178,35 @@
 				markerArray[i].setMap(null);
 			}
 			markerArray = new Array();
+
             drawCircleAndPoints(map, autocomplete);
             //calculateAndDisplayRoute(directionsService, directionsDisplay);
         });
     }
+
     function drawCircleAndPoints(map, autocomplete) {
         // generate a random degree from 0 to 360
         var directionDeg = Math.random() * 360;
 
         var place = autocomplete.getPlace();
+        if (!place) {
+            window.alert("Please input valid start address.");
+            return;
+        }
+        else {
+            console.log("not here");
+        }
+
         var lat = place.geometry.location.lat(),
             lng = place.geometry.location.lng();
         var startPoint = new google.maps.LatLng(lat, lng);
 
         var radius = parseFloat(document.getElementById('distance').value);
+        if (isNaN(radius)) {
+            alert("Please input valid distance value.");
+            return;
+        }
+
         radius = radius / (2 * 3.14159);
 //        console.log("radius: ", radius);
         var midPoint = startPoint.destinationPoint(directionDeg, radius);
